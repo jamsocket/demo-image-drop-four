@@ -3,7 +3,7 @@
 FROM ghcr.io/jamsocket/stateroom:latest as stateroom
 
 # The main build step happens in the Rust image.
-FROM rust:latest AS build
+FROM rust:1.80-slim AS build
 
 # We pull the jamsocket binary from the jamsocket image.
 COPY --from=stateroom /stateroom /stateroom
