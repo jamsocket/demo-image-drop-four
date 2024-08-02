@@ -12,6 +12,8 @@ COPY --from=stateroom /stateroom /stateroom
 RUN rustup target add wasm32-wasi
 RUN rustup target add wasm32-unknown-unknown
 
+RUN apt-get update && apt-get install -y git
+
 # Clone Aper repo, which includes the Drop Four game.
 WORKDIR /work
 RUN git clone https://github.com/jamsocket/aper
