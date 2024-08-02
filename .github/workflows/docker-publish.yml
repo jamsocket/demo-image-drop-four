@@ -23,32 +23,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - uses: depot/setup-action@v1
-
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      - name: Deploy to Jamsocket
+        uses: jamsocket/jamsocket-deploy-action@v0.1.3
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
-            type=raw,value=latest
-
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: depot/build-push-action@v1
-        with:
-          project: 58j0517pw2
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          jamsocket_api_token: ${{ secrets.JAMSOCKET_API_TOKEN }}
+          jamsocket_account: paul
+          jamsocket_service: dropfour
+          docker_build_context: ./
+          dockerfile_path: ./Dockerfile
+          tag: latest
