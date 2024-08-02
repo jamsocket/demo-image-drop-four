@@ -1,6 +1,6 @@
 # We use the Jamsocket image to extract the binary, so that
 # we can run `jamsocket build`.
-FROM ghcr.io/drifting-in-space/stateroom:latest as stateroom
+FROM ghcr.io/jamsocket/stateroom:latest as stateroom
 
 # The main build step happens in the Rust image.
 FROM rust:latest AS build
@@ -14,7 +14,7 @@ RUN rustup target add wasm32-unknown-unknown
 
 # Clone Aper repo, which includes the Drop Four game.
 WORKDIR /work
-RUN git clone https://github.com/drifting-in-space/aper
+RUN git clone https://github.com/jamsocket/aper
 
 # Build the demo game.
 WORKDIR /work/aper/examples/drop-four
@@ -24,6 +24,6 @@ RUN /stateroom build
 # but now we copy the built artifacts into it. The Stateroom
 # image will run `stateroom serve /dist` by default, so we
 # put the built files there.
-FROM ghcr.io/drifting-in-space/stateroom:latest
+FROM ghcr.io/jamsocket/stateroom:latest
 
 COPY --from=build /work/aper/examples/drop-four/dist /dist
