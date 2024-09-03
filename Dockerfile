@@ -1,6 +1,6 @@
 # We use the Jamsocket image to extract the binary, so that
 # we can run `jamsocket build`.
-FROM ghcr.io/jamsocket/stateroom:latest as stateroom
+FROM ghcr.io/jamsocket/stateroom:sha-08ddbf8 as stateroom
 
 # The main build step happens in the Rust image.
 FROM rust:1.80-slim AS build
@@ -26,6 +26,6 @@ RUN /stateroom build
 # but now we copy the built artifacts into it. The Stateroom
 # image will run `stateroom serve /dist` by default, so we
 # put the built files there.
-FROM ghcr.io/jamsocket/stateroom:latest
+FROM ghcr.io/jamsocket/stateroom:sha-08ddbf8
 
 COPY --from=build /work/aper/examples/drop-four/dist /dist
