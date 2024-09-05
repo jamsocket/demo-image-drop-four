@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y git
 WORKDIR /work
 RUN git clone https://github.com/jamsocket/aper
 
+
 # Build the demo game.
 WORKDIR /work/aper/examples/drop-four
 RUN /stateroom build
